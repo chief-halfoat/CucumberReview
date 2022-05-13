@@ -118,7 +118,11 @@ public class CommonMethods extends PageInitializers {
      * @param element
      */
     public static void switchToFrame(WebElement element) {
-        driver.switchTo().frame(element);
+        try {
+            driver.switchTo().frame(element);
+        } catch (NoSuchFrameException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -126,7 +130,11 @@ public class CommonMethods extends PageInitializers {
      * @param index
      */
     public static void switchToFrame(int index) {
-        driver.switchTo().frame(index);
+        try{
+            driver.switchTo().frame(index);
+        } catch (NoSuchFrameException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -134,7 +142,11 @@ public class CommonMethods extends PageInitializers {
      * @param nameOrId
      */
     public static void switchToFrame(String nameOrId) {
-        driver.switchTo().frame(nameOrId);
+        try {
+            driver.switchTo().frame(nameOrId);
+        } catch (NoSuchFrameException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,7 +163,13 @@ public class CommonMethods extends PageInitializers {
      */
     public static void selectDdValue(WebElement element, String textToSelect) {
         select = new Select(element);
-        select.selectByVisibleText(textToSelect);
+        List<WebElement> options = select.getOptions();
+        for(WebElement option:options){
+            if (option.getText().equals(textToSelect)){
+                select.selectByVisibleText(textToSelect);
+                break;
+            }
+        }
     }
 
     /**
@@ -161,7 +179,10 @@ public class CommonMethods extends PageInitializers {
      */
     public static void selectDdValue(WebElement element, int index) {
         select = new Select(element);
-        select.selectByIndex(index);
+        int size = select.getOptions().size();
+        if(size>index){
+            select.selectByIndex(index);
+        }
     }
 
     /**
